@@ -1,1 +1,9 @@
-# 02: Fundamentals of GenAI
+
+# test
+# test
+# test
+# test
+# test
+# test
+# test
+# test
