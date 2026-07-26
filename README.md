@@ -1,14 +1,17 @@
 # AWS Certified AI Practitioner (AIF-C01) Study Guide & Notes
 
-## Course Domains & Study Notes
+## Course Sections & Study Notes
 
-Click on the links below to access the study templates and track your progress for each domain:
+Click on the links below to access the study templates and track your progress for each section:
 
-1. **[01: Fundamentals of AI and ML](file:///Users/leechapman/Google%20Drive/My%20Drive/learning/aif-c01/01_fundamentalsOfAiAndMl.md)**
-2. **[02: Fundamentals of GenAI](file:///Users/leechapman/Google%20Drive/My%20Drive/learning/aif-c01/02_fundamentalsOfGenAi.md)**
-3. **[03: Applications of Foundation Models](file:///Users/leechapman/Google%20Drive/My%20Drive/learning/aif-c01/03_applicationsOfFoundationModels.md)**
-4. **[04: Guidelines for Responsible AI](file:///Users/leechapman/Google%20Drive/My%20Drive/learning/aif-c01/04_guidelinesForResponsibleAi.md)**
-5. **[05: Security, Compliance, and Governance for AI Solutions](file:///Users/leechapman/Google%20Drive/My%20Drive/learning/aif-c01/05_securityComplianceAndGovernanceForAiSolutions.md)**
+1. **[01: Fundamentals of Machine Learning and Artificial Intelligence](file:///Users/leechapman/Google%20Drive/My%20Drive/learning/aif-c01/01_fundamentalsOfMachineLearningAndArtificialIntelligence.md)**
+2. **[02: Exploring Artificial Intelligence Use Cases and Applications](file:///Users/leechapman/Google%20Drive/My%20Drive/learning/aif-c01/02_exploringArtificialIntelligenceUseCasesAndApplications.md)**
+3. **[03: Responsible Artificial Intelligence Practices](file:///Users/leechapman/Google%20Drive/My%20Drive/learning/aif-c01/03_responsibleArtificialIntelligencePractices.md)**
+4. **[04: Developing Machine Learning Solutions](file:///Users/leechapman/Google%20Drive/My%20Drive/learning/aif-c01/04_developingMachineLearningSolutions.md)**
+5. **[05: Developing Generative Artificial Intelligence Solutions](file:///Users/leechapman/Google%20Drive/My%20Drive/learning/aif-c01/05_developingGenerativeArtificialIntelligenceSolutions.md)**
+6. **[06: Optimizing Foundation Models](file:///Users/leechapman/Google%20Drive/My%20Drive/learning/aif-c01/06_optimizingFoundationModels.md)**
+7. **[07: Security, Compliance, and Governance for AI Solutions](file:///Users/leechapman/Google%20Drive/My%20Drive/learning/aif-c01/07_securityComplianceAndGovernanceForAiSolutions.md)**
+8. **[08: Essentials of Prompt Engineering](file:///Users/leechapman/Google%20Drive/My%20Drive/learning/aif-c01/08_essentialsOfPromptEngineering.md)**
 
 ---
 # About the Exam (AIF-C01)

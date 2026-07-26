@@ -209,3 +209,159 @@ graph TD
 - **What is continuous pre-training?** It is an additional pre-training phase on extra data meant to expand a model's knowledge base and improve generalization across new domains.
     
 - **How does RAG differ from fine-tuning regarding model weights?** RAG supplies external document context without changing underlying foundation model weights, whereas fine-tuning modifies those weights using task-specific datasets.
+
+
+# AWS AI and Machine Learning Infrastructure
+
+AWS provides a comprehensive suite of machine learning and generative AI services designed to support intelligent applications. This document outlines core architectural components, machine learning frameworks, managed AI capabilities, and cost considerations for enterprise workloads.
+
+## Machine Learning Frameworks and Core Infrastructure
+
+### Amazon SageMaker AI
+
+Amazon SageMaker AI manages traditional machine learning workflows, including building, training, and deploying models.
+
+- Provides fully managed infrastructure and tools.
+    
+- Removes heavy lifting from each step of the machine learning process.
+    
+- Speeds up production with lower cost and reduced effort.
+    
+- Supports efficient building, training, and running of large language models and foundational models.
+    
+
+
+```mermaid
+graph TD
+    A[Data Sources] --> B[Amazon SageMaker AI]
+    B --> C[Model Training]
+    B --> D[Model Tuning]
+    C --> E[Production Deployment]
+    D --> E
+```
+
+## Managed AI Services Layer
+
+AWS offers ready-to-use services that provide machine learning capabilities without requiring extensive infrastructure management or specialised expertise.
+
+### Natural Language and Text Processing
+
+- **Amazon Comprehend**: Uses natural language processing to uncover insights and relationships in unstructured data. Performs language identification, key phrase extraction, sentiment analysis, tokenisation, and topic modeling.
+    
+- **Amazon Translate**: Neural machine translation service using deep learning models to deliver accurate and natural-sounding translations for applications and documents.
+    
+- **Amazon Textract**: Automatically extracts text, handwritten data, and table contents from scanned documents, going beyond traditional optical character recognition.
+    
+
+### Conversational and Speech Services
+
+- **Amazon Lex**: Fully managed service to design, build, test, and deploy conversational interfaces using automatic speech recognition and natural language understanding.
+    
+- **Amazon Polly**: Converts text into lifelike speech using advanced deep learning technologies across multiple languages.
+    
+- **Amazon Transcribe**: Automatic speech recognition service that converts audio files or live audio streams into text with word-level timestamps.
+    
+
+## Generative AI Services
+
+The generative AI layer offers specialised tools for advanced content creation, data synthesis, and interactive experiences.
+
+|**Service**|**Primary Function**|**Key Capability**|
+|---|---|---|
+|**Amazon SageMaker JumpStart**|Model acceleration|Provides fully customizable reference architectures and one-click deployment for over 150 open-source models.|
+|**Amazon Bedrock**|Foundational model access|Fully managed service providing access to high-performing foundational models through a single API with private customisation options.|
+|**Amazon Q**|Enterprise assistant|Connects to company information repositories and codebases to provide immediate answers and streamline tasks.|
+|**Amazon Q Developer**|Code generation|Integrates with integrated development environments to generate entire functions and code blocks for developers.|
+
+## Cost Considerations and Trade-offs
+
+When deploying AWS AI and machine learning services, architectural choices directly impact financial and operational overhead:
+
+- **Responsiveness and Availability**: Lower latency and multi-Region deployments increase pricing compared to standard availability guarantees.
+    
+- **Redundancy**: Deploying across multiple Availability Zones or regions incurs additional costs for resource provisioning and data replication.
+    
+- **Compute Options**: High-performance hardware options, such as graphics processing units and custom accelerators, increase infrastructure costs in exchange for workload performance improvements.
+    
+- **Pricing Models**: Token-based pricing charges based on the volume of text or code generated or processed by services like Amazon Bedrock and Amazon Q Developer.
+    
+- **Provisioned Throughput**: Pre-allocating capacity for services like Amazon Polly and Amazon Transcribe ensures predictable performance for time-sensitive workloads at a higher cost.
+    
+- **Custom Models**: Training, fine-tuning, and deploying custom models incur additional expenses based on dataset complexity and compute duration.
+    
+
+## Review Questions and Answers
+
+### What is the primary function of Amazon SageMaker JumpStart?
+
+SageMaker JumpStart accelerates machine learning adoption by providing pre-built solutions, reference architectures, and one-click deployment for over 150 popular open-source models.
+
+### How does Amazon Bedrock deliver foundational models to developers?
+
+Amazon Bedrock provides access to foundational models from Amazon and leading artificial intelligence startups through a single serverless application programming interface.
+
+### What pricing model applies to services like Amazon Q Developer and Amazon Bedrock?
+
+These services typically utilise a token-based pricing model where customers pay for the exact volume of text or code processed or generated.
+
+# Mindmap
+
+```mermaid
+mindmap
+  root((Fundamentals of AI and ML))
+    Machine Learning
+      Data Types
+        Labeled
+        Unlabeled
+        Structured
+        Unstructured
+    Learning Types
+      Supervised
+      Unsupervised
+      Reinforcement
+      Semi-supervised
+    Inference
+      Batch Processing
+      Real-time Processing
+    Deep Learning
+      Neural Networks
+        Nodes
+        Input Layer
+        Hidden Layer
+        Output Layer
+      AI Branches
+        Computer Vision
+        Natural Language Processing
+    Generative AI
+      Foundation Models (FMs)
+        Pre-training
+        Optimisation (RAG vs Fine-tuning)
+        Evaluation
+        Deployment
+      Large Language Models
+        Transformer Architecture
+        Tokens
+        Embeddings and Vectors
+      Diffusion Models
+        Forward Diffusion
+        Reverse Diffusion
+      Other Model Types
+        Multimodal Models
+        GANs
+        VAEs
+    AWS AI Infrastructure
+      SageMaker AI
+        Workforce Management
+        SageMaker JumpStart
+      Managed AI Services
+        Language (Comprehend, Translate, Textract)
+        Speech (Polly, Transcribe)
+      Generative AI Services
+        Amazon Bedrock
+        Amazon Q
+        Amazon Q Developer
+      Cost Factors
+        Compute Options (GPU/Accelerators)
+        Token-based Pricing
+        Redundancy and Availability
+```
