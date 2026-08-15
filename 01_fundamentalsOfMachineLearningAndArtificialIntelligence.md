@@ -1,3 +1,18 @@
+---
+epub: true
+title: ""
+author: ""
+language: en
+cover: ""
+description: ""
+date: ""
+publisher: ""
+identifier: ""
+series: ""
+series_index: ""
+subject: []
+rights: ""
+---
 #  Machine Learning Fundamentals
 
 Building a machine learning model means collecting and preparing data, picking a good algorithm, training the model, and checking how well it works.

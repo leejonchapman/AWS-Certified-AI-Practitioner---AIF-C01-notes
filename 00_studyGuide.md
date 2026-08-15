@@ -1,3 +1,18 @@
+---
+epub: true
+title: ""
+author: ""
+language: en
+cover: ""
+description: ""
+date: ""
+publisher: ""
+identifier: ""
+series: ""
+series_index: ""
+subject: []
+rights: ""
+---
 # AWS Certified AI Practitioner (AIF-C01)
 <a name="ai-practitioner-01"></a>
 The AWS Certified AI Practitioner (AIF-C01) exam is designed for individuals who want to demonstrate a foundational understanding of AI concepts and AWS AI tools. This certification focuses on practical business applications of AI.
