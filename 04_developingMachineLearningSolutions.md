@@ -139,7 +139,7 @@ graph LR
         T1 --> A1[Correct Specialist]
     end
     
-    subgraph ML Optimized Routing
+    subgraph ML Optimised Routing
         C2[Customer] --> A2[Correct Specialist Directly]
     end
 ```
@@ -189,3 +189,327 @@ pie title Call Volume Distribution by Topic
       
     
 - **Low Learning Rate**: Weight updates proceed too slowly, extending training duration unnecessarily and risking premature termination before reaching the optimal loss minimum.
+
+# Amazon SageMaker AI
+
+Amazon SageMaker AI is a fully managed machine learning service providing a unified visual interface to collect, prepare data, build, train, deploy, and monitor models.
+
+## Core Environment
+
+- **Amazon SageMaker Studio**: A web based interface providing unified access to all SageMaker AI tools, compute environments, and assets.
+    
+      
+    
+
+## Machine Learning Lifecycle and Services
+
+|**Lifecycle Stage**|**Service / Tool**|**Primary Capability**|**Key Output / Target**|
+|---|---|---|---|
+|**No Code ML**|SageMaker Canvas|Visual low code / no code interface for training and inference|Predictions without coding|
+|**Foundation Models**|SageMaker JumpStart|Pretrained open source models for diverse tasks|Pretrained model baselines|
+|**Feature Management**|SageMaker Feature Store|Ingests streaming or batch data; serves via online or offline stores|Features for training and inference|
+|**Model Training**|Training Jobs|Uses built in or custom algorithms on managed compute|Model artifacts saved to Amazon S3|
+|**Experimentation**|SageMaker Experiments|Tracks iterations across data, algorithms, and parameters|Accuracy and impact metrics|
+|**Tuning**|Automatic Model Tuning|Executes parallel training runs across hyperparameter ranges|Optimised metric model|
+|**Deployment**|Inference Infrastructure|Scalable endpoints for predictions|Realtime and batch inference|
+|**Monitoring**|SageMaker Model Monitor|Detects data quality, model quality, bias drift, and feature drift|Continuous or scheduled alerts|
+
+## SageMaker Feature Store Architecture
+
+
+```mermaid
+flowchart LR
+    subgraph Ingest["1. Ingest Data"]
+        S[Streaming Data]
+        B[Batch Data]
+    end
+
+    subgraph Store["2. Store"]
+        OFS[Online Feature Store]
+        OFFS[Offline Feature Store]
+    end
+
+    subgraph Serve["3. Serve"]
+        RT[Realtime Inference]
+        BI[Batch Inference]
+        MT[Model Training]
+    end
+
+    S --> OFS
+    B --> OFFS
+
+    OFS --> RT
+    OFS --> BI
+    OFFS --> BI
+    OFFS --> MT
+```
+
+## Key Technical Distinctions
+
+- **Online Feature Store**: Low latency retrieval designed for realtime predictions.
+    
+      
+    
+- **Offline Feature Store**: High volume storage for historical analysis, batch predictions, and model training.
+    
+      
+    
+- **Model Monitor Triggers**: Evaluates against baseline thresholds on schedule or continuously.
+    
+      
+    
+
+## Questions You Might Have Missed
+
+**What latency requirement determines whether to query the Online or Offline Feature Store?**
+
+Online Feature Store is required for single digit millisecond lookups during realtime inference, whereas Offline Feature Store queries S3 for high volume batch processing.
+
+
+**Where does SageMaker store final model artifacts after a training job completes?**
+
+SageMaker automatically compresses and writes the output tarball (`model.tar.gz`) directly to a designated Amazon S3 bucket path.
+
+
+**What four drift types does SageMaker Model Monitor evaluate?**
+
+It evaluates data quality drift, model quality drift, baseline bias drift, and feature attribution drift against defined baseline constraints.
+
+# Amazon SageMaker AI Model Implementations
+
+## Model Implementation Options
+
+|**Implementation Approach**|**Description**|**Effort Level**|**Use Case Fit**|
+|---|---|---|---|
+|Pretrained Models|Ready to deploy or fine-tune models from popular hubs via SageMaker JumpStart.|Lowest effort|Rapid deployment, standard tasks, baseline testing|
+|Built-in Algorithms|Scalable, prepackaged algorithms provided natively within SageMaker AI.|Medium effort|Large datasets requiring significant training resources|
+|Prebuilt Framework Containers|Preconfigured environments for TensorFlow, PyTorch, scikit-learn, MXNet, and Chainer.|High effort|Custom model architectures using standard frameworks|
+|Custom Docker Images|Fully tailored containers packaged with custom libraries and dependencies.|Highest effort|Bespoke runtimes or specialised external dependencies|
+
+
+```mermaid
+flowchart TD
+    Start([Choose Model Path]) --> Q1{Need ready-to-use or foundation models?}
+    Q1 -- Yes --> A[SageMaker JumpStart]
+    Q1 -- No --> Q2{Standard task with high scalability?}
+    Q2 -- Yes --> B[SageMaker Built-in Algorithms]
+    Q2 -- No --> Q3{Supported framework available?}
+    Q3 -- Yes --> C[Prebuilt Framework Container]
+    Q3 -- No --> D[Custom Docker Image]
+```
+
+## SageMaker JumpStart Overview
+
+- **Capabilities:** Deploy, fine-tune, and evaluate pretrained models from model hubs.
+    
+      
+    
+- **Model Selection:** Pretrained open source models across common problem domains.
+    
+      
+    
+- **Infrastructure:** Preconfigured solution templates for standard machine learning use cases.
+    
+      
+    
+- **Notebooks:** Runnable example notebooks for step-by-step training and deployment workflows.
+    
+      
+    
+
+## SageMaker Built-in Algorithms Taxonomy
+
+### Supervised Learning
+
+- **Classification & Regression:**
+    
+      
+    - **Linear Learner:** Solves linear regression, binary classification, and multiclass classification.
+        
+          
+        
+    - **Factorization Machines:** Handles high-dimensional sparse data, recommendations, and click-through prediction.
+        
+          
+        
+    - **XGBoost:** Gradient boosted tree algorithm for tabular regression and classification.
+        
+          
+        
+    - **K-Nearest Neighbors (KNN):** Non-parametric algorithm for distance-based classification and regression.
+        
+          
+        
+
+
+```mermaid
+flowchart TD
+    SL[Supervised Learning]
+    SL --> C[Classification]
+    SL --> R[Regression]
+    C --> LL[Linear Learner]
+    C --> FM[Factorization Machines]
+    C --> XGB[XGBoost]
+    C --> KNN[K-Nearest Neighbors]
+    R --> LL
+    R --> FM
+    R --> XGB
+    R --> KNN
+```
+
+### Unsupervised Learning
+
+- **Clustering:**
+    
+      
+    - **K-Means:** Groups unlabelled data points into distinct clusters.
+        
+          
+        
+- **Topic Modelling:**
+    
+      
+    - **Latent Dirichlet Allocation (LDA):** Discovers abstract topics across collections of documents.
+        
+          
+        
+- **Embeddings:**
+    
+      
+    - **Object2Vec:** Maps pairs of objects into low-dimensional dense vectors.
+        
+          
+        
+- **Anomaly Detection:**
+    
+      
+    - **Random Cut Forest:** Identifies anomalous data points within continuous data streams.
+        
+          
+        
+    - **IP Insights:** Detects suspicious behaviour or unusual patterns in IPv4 addresses.
+        
+          
+        
+- **Dimensionality Reduction:**
+    
+      
+    - **Principal Component Analysis (PCA):** Reduces feature dimensionality while preserving variance.
+        
+          
+        
+
+
+```mermaid
+flowchart TD
+    UL[Unsupervised Learning]
+    UL --> Clust[Clustering]
+    UL --> Topic[Topic Modelling]
+    UL --> Embed[Embeddings]
+    UL --> Anom[Anomaly Detection]
+    UL --> DimRed[Dimensionality Reduction]
+
+    Clust --> KM[K-Means]
+    Topic --> LDA[Latent Dirichlet Allocation]
+    Embed --> O2V[Object2Vec]
+    Anom --> RCF[Random Cut Forest]
+    Anom --> IPI[IP Insights]
+    DimRed --> PCA[Principal Component Analysis]
+```
+
+### Vision, Text, Speech, and Time Series
+
+- **Images & Video:**
+    
+      
+    - **Image Classification:** Categorises images using pretrained backbones (ResNet, ImageNet, MXNet, TensorFlow).
+        
+          
+        
+    - **Object Detection:** Identifies and locates bounding boxes around objects.
+        
+          
+        
+    - **Semantic Segmentation:** Pixel-level scene parsing using Fully Convolutional Networks (FCN), Pyramid Scene Parsing (PSP), and DeepLab V3 with ResNet.
+        
+          
+        
+- **Time Series:**
+    
+      
+    - **DeepAR:** Supervised learning algorithm for forecasting scalar time series using autoregressive recurrent neural networks.
+        
+          
+        
+- **Text Analysis:**
+    
+      
+    - **Text Classification & Word Embeddings:** BlazingText (supports text classification and Word2Vec).
+        
+          
+        
+    - **Machine Translation:** Sequence to Sequence (Seq2Seq).
+        
+          
+        
+    - **Topic Modelling:** Latent Dirichlet Allocation (LDA) and Neural Topic Modelling (NTM).
+        
+          
+        
+- **Speech:**
+    
+      
+    - **Speech Processing:** Sequence to Sequence (Seq2Seq).
+        
+          
+        
+
+
+```mermaid
+mindmap
+  root((Specialised Workflows))
+    Vision
+      Image Classification
+        ResNet
+        ImageNet
+      Object Detection
+        SSD
+      Semantic Segmentation
+        FCN
+        PSP
+        DeepLab V3 ResNet
+    Time Series
+      DeepAR
+    Text Analysis
+      Text Classification
+        BlazingText
+      Word Embeddings
+        Word2Vec via BlazingText
+      Topic Modelling
+        LDA
+        NTM
+      Machine Translation
+        Sequence to Sequence
+    Speech
+      Sequence to Sequence
+```
+
+### Questions You Might Have Missed
+
+**When should you select BlazingText over custom Hugging Face containers?**
+
+Use BlazingText when you require highly scalable text classification or Word2Vec embeddings with minimal setup overhead. Select custom containers if you need transformer-based architectures like modern BERT variants.
+
+  
+
+**How does Factorization Machines differ from Linear Learner on sparse datasets?**
+
+Linear Learner tracks linear relationships directly, whereas Factorization Machines captures pairwise feature interactions, making it far superior for high-dimensional sparse tasks like recommendation engines.
+
+  
+
+**What is the core structural difference between LDA and NTM for topic modelling?**
+
+LDA relies on traditional statistical Bayesian inference, whereas NTM utilises a neural network framework to learn topic representations, often scaling better with large vocabularies.
+
+  
