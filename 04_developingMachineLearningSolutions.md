@@ -729,3 +729,427 @@ Because MSE squares each individual error term before averaging, large residual 
 **When is R Squared less reliable as a sole regression metric?**
 
 $R^2$ can artificially increase as more features are added to a model regardless of their actual predictive contribution, which is why Adjusted $R^2$ is frequently preferred for multi feature models.
+
+# Model Deployment
+
+Model deployment is the integration of a machine learning model and its operational resources into a production environment to generate predictions.
+
+```mermaid
+mindmap
+  root((Model Deployment))
+    Infrastructure Types
+      Self Hosted API
+        On premises or Cloud VMs
+        Full control
+        High operational overhead
+      Managed API Services
+        AWS SageMaker AI
+        Managed infrastructure
+        Low operational overhead
+    SageMaker AI Inference Types
+      Real Time Inference
+        Interactive
+        Low latency
+        Persistent endpoint
+      Batch Transform
+        Large datasets
+        No persistent endpoint
+        Dataset preprocessing
+      Asynchronous Inference
+        Queued requests
+        Large payloads up to 1 GB
+        Long processing times up to 1 hr
+      Serverless Inference
+        Traffic spurts with idle periods
+        Tolerates cold starts
+        Zero infrastructure management
+```
+
+## Deployment Approaches
+
+The choice between a managed API service and a self-hosted API depends on use case requirements, the level of customisation needed, internal operational expertise, and cost constraints.
+
+  
+
+|**Feature**|**Self-Hosted API**|**Managed API Service (e.g. AWS SageMaker AI)**|
+|---|---|---|
+|**Hosting Location**|On premises or cloud (VMs, containers)|Cloud fully managed environment|
+|**Infrastructure Management**|Manual setup of web servers, load balancers, and databases|Abstracted away by cloud vendor|
+|**Level of Control**|Full control over the runtime environment|Standardised managed configurations|
+|**Operational Overhead**|High (maintenance, patching, scaling)|Low (vendor handles platform operations)|
+|**Key Advantage**|Granular customisation and potential cost control|Rapid deployment to production environments|
+
+## AWS SageMaker AI Deployment
+
+SageMaker AI provides managed infrastructure with the following built-in capabilities:
+
+  
+
+- Deployment via one click or a single API call
+    
+      
+    
+- Automatic scaling
+    
+      
+    
+- Managed model hosting services
+    
+      
+    
+- HTTPS endpoints supporting multi-model hosting
+    
+      
+    
+
+## SageMaker AI Inference Options
+
+
+```mermaid
+graph TD
+    A[Inference Workload] --> B{Continuous, low latency?}
+    B -- Yes --> C[Real-Time Inference]
+    B -- No --> D{Large files or long runtimes?}
+    D -- Yes, large payloads up to 1GB or up to 1hr --> E[Asynchronous Inference]
+    D -- No --> F{Intermittent traffic?}
+    F -- Yes, tolerates cold starts --> G[Serverless Inference]
+    F -- No, offline batch processing --> H[Batch Transform]
+```
+
+### Real-Time Inference
+
+- **Use Case:** Interactive workloads with low latency requirements.
+    
+      
+    
+- **Architecture:** Persistent HTTPS endpoints serving real-time requests.
+    
+      
+    
+
+### Batch Transform
+
+- **Use Case:** Inferences across large, offline datasets without requiring a persistent endpoint.
+    
+      
+    
+- **Additional Function:** Preprocessing datasets to remove noise or bias prior to downstream training or inference.
+    
+      
+    
+
+### Asynchronous Inference
+
+- **Use Case:** Workloads with large payload sizes (up to 1 GB) and long processing durations (up to one hour).
+    
+      
+    
+- **Architecture:** Automatically queues incoming requests and processes them asynchronously with near real-time latency.
+    
+      
+    
+
+### Serverless Inference
+
+- **Use Case:** Workloads with variable traffic patterns, intermittent idle periods, and tolerance for cold starts.
+    
+      
+    
+- **Architecture:** On-demand computing that deploys and scales without configuring underlying instances.
+    
+      
+    
+
+## Questions You Might Have Missed
+
+**How does batch transform save costs compared to real-time endpoints?**
+
+Batch transform provisions compute instances only for the duration of the processing job and terminates them immediately upon completion, avoiding idle endpoint hosting costs.
+
+  
+
+**What causes cold starts in serverless inference?**
+
+A cold start occurs when the platform spins up a fresh container instance to process an incoming request after a period of idle inactivity.
+
+  
+
+**When should multi-model endpoints be selected over single-model endpoints?**
+
+Multi-model endpoints allow hosting multiple models behind a single endpoint instance, sharing memory and compute resources to reduce hosting costs for models with similar latency profiles.
+
+# Fundamental Concepts of MLOps
+
+MLOps combines people, processes, and technology to operationalise and streamline the machine learning lifecycle from development and deployment through to continuous monitoring and retraining.
+
+```mermaid
+mindmap
+  root((MLOps))
+    People
+      Data Scientists
+      Data Engineers
+      Software Engineers
+      IT Operations
+      Cross functional collaboration
+    Processes
+      Workflows and governance
+      Key performance indicators
+      Continuous testing and validation
+      Audit trails and compliance
+    Technology
+      Compute infrastructure
+      Orchestration tools
+      Code, data, and model repositories
+      Automated CI CD pipelines
+```
+
+## Core Pillars of MLOps
+
+MLOps adapts DevOps principles to the specific demands of machine learning workloads, where code, data, and model parameters evolve simultaneously.
+
+
+```mermaid
+flowchart TD
+    subgraph Pillars [The Intersection of MLOps]
+        P[People: Skills & Collaboration]
+        T[Technology: Infrastructure & Orchestration]
+        PR[Processes: Workflows & KPIs]
+    end
+    P --- MLOps((MLOps))
+    T --- MLOps
+    PR --- MLOps
+```
+
+|**Pillar**|**Key Elements**|**Role in Machine Learning Systems**|
+|---|---|---|
+|**People**|Data scientists, ML engineers, software engineers, DevOps, business stakeholders|Fosters shared responsibility across data curation, model authoring, and operations|
+|**Process**|Standardised workflows, governance policies, review gates, KPI monitoring|Ensures rigorous testing, auditable model releases, and reproducible experiments|
+|**Technology**|Automated pipelines, container registries, compute clusters, feature stores|Delivers compute platforms, tracking systems, and deployment infrastructure|
+
+## Business and Technical Benefits
+
+Implementing automated MLOps practices delivers measurable efficiency gains across five core areas:
+
+  
+
+- **Productivity:** Automates repetitive tasks across data preparation and experimentation, freeing engineering teams to focus on model design.
+    
+      
+    
+- **Reliability:** Standardises release procedures with automated testing to catch code, data, and schema issues before production.
+    
+      
+    
+- **Repeatability:** Ensures every training run, parameter set, and data split can be recreated identically at any point.
+    
+      
+    
+- **Auditability:** Maintains complete lineage records for data transformations, model weights, and approval sign offs for regulatory compliance.
+    
+      
+    
+- **Data and Model Quality:** Continuous evaluation identifies data drift and concept drift early to keep inference accuracy high.
+    
+      
+    
+
+## Key Principles of MLOps
+
+
+```mermaid
+flowchart LR
+    VC[Version Control] --> AU[Automation]
+    AU --> CICD[CI / CD / CT / CM]
+    CICD --> MG[Model Governance]
+```
+
+### Version Control
+
+Tracks changes across all three essential assets in machine learning pipelines:
+
+  
+
+- **Code:** Training scripts, pipeline definitions, and inference logic.
+    
+      
+    
+- **Data:** Training datasets, validation splits, and feature definitions.
+    
+      
+    
+- **Models:** Artefacts, weights, hyperparameters, and evaluation metrics.
+    
+      
+    
+- **Rollback Capability:** Enables immediate reversion to known stable versions if production metrics degrade.
+    
+      
+    
+
+### Automation
+
+Removes manual steps from pipeline execution to guarantee consistency:
+
+  
+
+- Pipeline automation spans data ingestion, preprocessing, training, validation, and deployment.
+    
+      
+    
+- Automated testing catches regressions in data quality or code logic early in the cycle.
+    
+      
+    
+
+### Continuous Integration, Continuous Delivery, Continuous Training, Continuous Monitoring
+
+- **Continuous Integration (CI):** Validates and tests code, pipeline components, and input data schemas.
+    
+      
+    
+- **Continuous Delivery (CD):** Automatically packages and deploys validated models or inference services to staging and production.
+    
+      
+    
+- **Continuous Training (CT):** Automatically triggers retraining runs when new data arrives or model decay is detected.
+    
+      
+    
+- **Continuous Monitoring (CM):** Tracks live prediction metrics, infrastructure utilisation, and business outcomes.
+    
+      
+    
+
+### Model Governance
+
+- **Approval Gates:** Structured validation workflows to review fairness, bias, and ethics before deployment.
+    
+      
+    
+- **Security and Compliance:** Protects sensitive training data and restricts endpoint access through role based policies.
+    
+      
+    
+- **Explainability:** Generates documentation and transparency reports for audit teams and stakeholders.
+    
+      
+    
+
+## Machine Learning Lifecycle Flow
+
+```mermaid
+flowchart TD
+    A[Business Problem] --> B[ML Problem Framing]
+    B --> C[Data Collection and Preparation]
+    C --> D[Feature Engineering]
+    D --> E[Model Training and Parameter Tuning]
+    E --> F[Model Evaluation]
+    F --> G{Are business goals met?}
+    
+    G -- No: Feature Augmentation --> D
+    G -- No: Data Augmentation --> C
+    G -- Yes --> H[Model Testing and Deployment]
+    
+    H --> I[Monitoring and Debugging]
+    I -- Add new data and retrain --> C
+```
+
+## Lifecycle Asset Management
+
+Managing machine learning systems requires distinct repositories and pipeline stages to track artefacts across every phase.
+
+```mermaid
+flowchart LR
+    subgraph Repositories [Foundational Repositories]
+        DR[(Data Repository)]
+        CR[(Code Repository)]
+        MR[(Model Repository)]
+    end
+
+    subgraph Stages [Pipeline Stages]
+        DP[Data Preparation] --> MB[Model Build]
+        MB --> ME[Model Evaluation]
+        ME --> MS[Model Selection]
+        MS --> DEP[Deployment]
+        DEP --> MON[Monitoring]
+    end
+
+    DR -.-> DP
+    DR -.-> MB
+    CR -.-> DP
+    CR -.-> MB
+    CR -.-> DEP
+    MR -.-> MS
+    MR -.-> DEP
+    MON -.-> DP
+```
+
+|**Lifecycle Stage**|**Inputs and Activities**|**Primary Artefacts Managed**|
+|---|---|---|
+|**Data Preparation**|Data collection, cleaning, feature extraction|Processing code, raw data, processed datasets|
+|**Model Build**|Algorithm selection, training runs, tuning|Training code, hyperparameters, training datasets|
+|**Model Evaluation**|Metric scoring against baseline expectations|Candidate models, test splits, evaluation reports|
+|**Model Selection**|Comparative analysis, compliance checks|Model metadata, selected champion models|
+|**Deployment**|Endpoint provisioning, container packaging|Production code, inference logic, container images|
+|**Monitoring**|Live inference tracking, drift detection|Production logs, drift metrics, ground truth data|
+
+## AWS Architecture for MLOps
+
+Amazon SageMaker AI provides modular cloud components to orchestrate every stage of the MLOps lifecycle.
+
+```mermaid
+flowchart TD
+    subgraph DataPrep [Data Preparation]
+        S3A[(Amazon S3 Raw Data)] --> SMPrep[SageMaker Data Wrangler / Processing]
+        SMPrep --> SMFS[SageMaker Feature Store]
+    end
+
+    subgraph TrainTune [Train and Tune]
+        SMFS --> SMTrain[SageMaker Training Jobs]
+        SMTrain --> SMEval[SageMaker Model Evaluation]
+        SMEval --> SMReg[SageMaker Model Registry]
+    end
+
+    subgraph DeployManage [Deploy and Manage]
+        SMReg --> SMDeploy[SageMaker Real Time / Serverless Endpoints]
+        SMDeploy --> SMMon[SageMaker Model Monitor]
+        SMMon --> CW[Amazon CloudWatch]
+    end
+
+    SMMon -. Feedback Loop .-> S3A
+```
+
+- **Data Preparation:** Amazon S3 stores raw and structured data. SageMaker Data Wrangler and Processing clean inputs, while SageMaker Feature Store curates and serves reusable features.
+    
+      
+    
+- **Train and Tune:** SageMaker Training runs compute jobs, SageMaker Experiments tracks runs and metrics, SageMaker Clarify evaluates bias, and SageMaker Model Registry logs versioned artefacts.
+    
+      
+    
+- **Deploy and Manage:** SageMaker Endpoints host models with autoscaling, while SageMaker Model Monitor and Amazon CloudWatch track data drift, concept drift, and system health.
+    
+      
+    
+- **Orchestration:** SageMaker Pipelines coordinates steps as a direct acyclic graph to automate execution across all stages.
+    
+      
+    
+
+## Questions You Might Have Missed
+
+**What is the difference between data drift and concept drift in model monitoring?**
+
+Data drift occurs when the statistical distribution of input features changes over time. Concept drift occurs when the statistical relationship between input features and target labels changes, reducing model prediction accuracy even if input data shapes stay the same.
+
+  
+
+**Why does standard DevOps continuous integration fall short for machine learning?**
+
+DevOps continuous integration verifies code syntax and build unit tests. Machine learning requires continuous integration that additionally validates input data schemas, data distributions, and model performance metrics against baseline thresholds.
+
+  
+
+**What function does the SageMaker Model Registry serve in deployment pipelines?**
+
+SageMaker Model Registry stores versioned model packages, logs evaluation metadata, manages approval status flags, and triggers automated deployment pipelines once a model receives authorised approval.
