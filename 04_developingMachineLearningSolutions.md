@@ -328,7 +328,7 @@ flowchart TD
         
           
         
-    - **Factorization Machines:** Handles high-dimensional sparse data, recommendations, and click-through prediction.
+    - **Factorisation Machines:** Handles high-dimensional sparse data, recommendations, and click-through prediction.
         
           
         
@@ -348,7 +348,7 @@ flowchart TD
     SL --> C[Classification]
     SL --> R[Regression]
     C --> LL[Linear Learner]
-    C --> FM[Factorization Machines]
+    C --> FM[Factorisation Machines]
     C --> XGB[XGBoost]
     C --> KNN[K-Nearest Neighbors]
     R --> LL
@@ -513,3 +513,219 @@ Linear Learner tracks linear relationships directly, whereas Factorization Machi
 LDA relies on traditional statistical Bayesian inference, whereas NTM utilises a neural network framework to learn topic representations, often scaling better with large vocabularies.
 
   
+
+# Machine Learning Models Performance Evaluation
+
+```mermaid
+flowchart TD
+    Data[Dataset] --> Train[Training Set]
+    Data --> Val[Validation Set]
+    Data --> Test[Test Set]
+    Train --> Model[Model Training]
+    Model --> ValEval[Validation Evaluation]
+    ValEval --> Tune[Hyperparameter Tuning]
+    Tune --> Model
+    ValEval --> FinalTest[Test Set Evaluation]
+```
+
+## Model Evaluation Datasets
+
+Evaluation occurs after a model is trained. The data is partitioned into three distinct sets:
+
+  
+
+- **Training Set**: Used to train the algorithm and learn relationships within the features.
+    
+      
+    
+- **Validation Set**: Evaluates how the model responds in a non training environment. Ensures the model generalises to unseen data and guides iterative improvements before production readiness.
+    
+      
+    
+- **Test Set**: Assesses the final predictive quality of the improved model against baseline requirements.
+    
+      
+    
+
+## Model Fit and the Bias Variance Tradeoff
+
+```mermaid
+mindmap
+  root((Model Fit))
+    Underfitting
+      High Bias
+      Too Simple
+      Poor Training Performance
+      Poor Validation Performance
+    Balanced
+      Low Bias
+      Low Variance
+      Optimal Generalisation
+    Overfitting
+      High Variance
+      Memorises Data
+      High Training Performance
+      Poor Validation Performance
+```
+
+- **Underfitting**: Occurs when the model performs poorly on training data because it cannot capture the relationship between input features ($X$) and target values ($Y$). Typically caused by overly simple models where input features lack expressive power.
+    
+      
+    
+- **Overfitting**: Occurs when the model performs well on training data but poorly on evaluation data. The model memorises specific training examples instead of learning generalisable patterns.
+    
+      
+    
+- **Balanced**: Characterised by low bias and low variance, delivering consistent, accurate predictions across unseen datasets.
+    
+      
+    
+
+|**Fit Condition**|**Bias Level**|**Variance Level**|**Error Source**|
+|---|---|---|---|
+|**Underfitting**|High|Low|Gap between predicted and true value is large|
+|**Overfitting**|Low|High|Dispersed predictions sensitive to data variations|
+|**Balanced**|Low|Low|Model closely mirrors true underlying relationship|
+
+## Classification Evaluation Metrics
+
+```mermaid
+flowchart LR
+    subgraph Evaluation Process
+        Step1[Send Held Out Observations] --> Step2[Compare Predictions to Ground Truth]
+        Step2 --> Step3[Compute Performance Metrics]
+    end
+```
+
+### Confusion Matrix
+
+The confusion matrix serves as the fundamental structure for categorising model predictions against ground truth labels.
+
+  
+
+|**Actual \ Predicted**|**Predicted Positive (P)**|**Predicted Negative (N)**|
+|---|---|---|
+|**Actual Positive ($P$)**|True Positive ($TP$)|False Negative ($FN$)|
+|**Actual Negative ($N$)**|False Positive ($FP$)|True Negative ($TN$)|
+
+### Metric Formulations
+
+- **Accuracy**: The proportion of correct predictions across all cases.
+    
+      
+    
+    $$\text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}$$
+    
+    _Limitation_: Less informative when the dataset contains a high volume of true negative cases.
+    
+      
+    
+- **Precision**: The proportion of positive predictions that are correct.
+    
+      
+    
+    $$\text{Precision} = \frac{TP}{TP + FP}$$
+    
+    _Optimal Use_: Scenarios where the cost of false positives is severe (e.g. preventing legitimate messages from being marked as spam).
+    
+      
+    
+- **Recall (Sensitivity)**: The proportion of actual positive cases correctly identified.
+    
+      
+    
+    $$\text{Recall} = \frac{TP}{TP + FN}$$
+    
+    _Optimal Use_: Scenarios where missing a positive case carries critical risk (e.g. failing to detect a terminal medical condition).
+    
+      
+    
+- **F1 Score**: The harmonic mean of precision and recall.
+    
+      
+    
+    $$\text{F1} = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}$$
+    
+
+### Receiver Operating Characteristic (ROC) and Area Under Curve (AUC)
+
+```mermaid
+graph TD
+    AUC[Area Under Curve] --> Perf[Measure of Separability]
+    ROC[ROC Curve] --> Plot[Plots Sensitivity vs 1 - Specificity across Thresholds]
+    Plot --> Decision[Identifies Optimal Operational Threshold]
+```
+
+- **ROC Curve**: Plots the True Positive Rate (Sensitivity) against the False Positive Rate ($1 - \text{Specificity}$) across multiple classification thresholds.
+    
+      
+    
+- **AUC Metric**: Represents the degree of separability between classes.
+    
+      
+    - $\text{AUC} = 1.0$: Perfect class discrimination.
+        
+          
+        
+    - $\text{AUC} = 0.5$: Random guessing (diagonal baseline).
+        
+          
+        
+    - Higher values (e.g. $0.893$ vs $0.687$) demonstrate superior separation capacity across varying cut off points.
+        
+          
+        
+
+## Regression Evaluation Metrics
+
+```mermaid
+flowchart LR
+    Actual((Actual Value)) --- Error[Residual / Error]
+    Error --- Pred((Predicted Line))
+    Error --> Square[Square Residuals]
+    Square --> Mean[Compute Mean: MSE]
+```
+
+- **Mean Squared Error (MSE)**: Evaluates prediction accuracy by calculating the average squared difference between predictions ($\hat{Y}$) and actual values ($Y$). Lower values signify superior model accuracy.
+    
+      
+    
+    $$\text{MSE} = \frac{1}{n}\sum_{i=1}^{n}(Y_i - \hat{Y}_i)^2 = \frac{\text{error}_1^2 + \dots + \text{error}_n^2}{n}$$
+    
+- **R Squared ($R^2$)**: Quantifies the proportion of variance explained by the model on a scale from 0 to 1. Higher values near 1 denote strong goodness of fit to the observed data distribution.
+    
+      
+    
+
+## Business Alignment and Validation
+
+- **Key Performance Indicators (KPIs)**: Tie numerical machine learning evaluation metrics directly to high level business targets, including revenue growth, cost minimisation, and customer churn reduction.
+    
+      
+    
+- **Custom Cost Functions**: Assign bespoke economic values and penalty weights to correct versus incorrect outputs, matching organisational error tolerance.
+    
+      
+    
+- **Live Deployment Testing**: Use split testing (A/B testing) and canary deployments to validate model performance against live production goals.
+    
+      
+    
+
+## Questions You Might Have Missed
+
+**How does changing the classification threshold impact Precision and Recall?**
+
+Raising the decision threshold decreases False Positives (increasing Precision) but increases False Negatives (decreasing Recall). Lowering the threshold produces the opposite outcome.
+
+  
+
+**Why does Mean Squared Error penalise outliers more than Mean Absolute Error?**
+
+Because MSE squares each individual error term before averaging, large residual errors receive exponentially heavier penalties than small residual errors.
+
+  
+
+**When is R Squared less reliable as a sole regression metric?**
+
+$R^2$ can artificially increase as more features are added to a model regardless of their actual predictive contribution, which is why Adjusted $R^2$ is frequently preferred for multi feature models.
