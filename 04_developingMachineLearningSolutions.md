@@ -1153,3 +1153,95 @@ DevOps continuous integration verifies code syntax and build unit tests. Machine
 **What function does the SageMaker Model Registry serve in deployment pipelines?**
 
 SageMaker Model Registry stores versioned model packages, logs evaluation metadata, manages approval status flags, and triggers automated deployment pipelines once a model receives authorised approval.
+
+# Mindmap
+
+```mermaid
+mindmap
+  root((Developing Machine Learning Solutions))
+    Machine Learning Development Lifecycle
+      Business Problem Definition
+      ML Problem Framing
+      Data Collection and Preparation
+      Data Preprocessing and Visualisation
+      Feature Engineering
+      Model Training and Tuning
+      Model Evaluation
+      Deployment and Serving
+      Monitoring and Retraining
+    Human in the Loop Workflows
+      Amazon A2I
+        Textract Integration
+        Rekognition Integration
+        Custom Integration
+      Evaluation Methods
+        Ground Truth Evaluation
+        Periodic Audits
+        Real Time Assessment
+    Amazon SageMaker Ground Truth
+      Automated Data Labelling
+      Active Learning Model
+      Human Annotation Workflows
+      Augmented AI Integration
+      SageMaker Ground Truth Plus
+      Private Workforce
+      Vendor Workforce
+      Public Workforce
+    Data Preparation and Exploration
+      Synthetic Data
+      Data Augmentation
+      Data Distribution Analysis
+      Outlier Detection
+    SageMaker Built in Algorithms
+      Supervised Learning
+        Linear Learner
+        Factorisation Machines
+        XGBoost
+        K Nearest Neighbours
+        Sequence to Sequence
+      Unsupervised Learning
+        K Means Clustering
+        Principal Component Analysis PCA
+        DeepAR
+        Random Cut Forest
+        IP Insights
+        Latent Dirichlet Allocation LDA
+      Computer Vision and NLP
+        Image Classification
+        Object Detection
+        Semantic Segmentation
+        BlazingText
+        Image2Data Embeddings
+    Model Training and Tuning
+      Frameworks
+        Pre built Algorithms
+        Script Mode Custom Code
+        Pre trained Foundation Models
+      Compute Infrastructure
+        Spot Instances and Savings Plans
+        Distributed Data Parallel
+        SageMaker HyperPods
+        Warm Pools
+        Managed Spot Training
+      Hyperparameter Tuning
+        Automatic Model Tuning AMT
+        Bayesian Search
+        Hyperband
+    Model Evaluation and Validation
+      Offline Evaluation
+      Online Evaluation
+      SageMaker Clarify
+      Model Bias Drift
+    Deployment and Operations
+      Deployment Modes
+        Real Time Inference
+        Serverless Inference
+        Asynchronous Inference
+        Batch Transform
+      Monitoring and Safety
+        SageMaker Model Monitor
+        Model Quality Drift
+        Data Quality Drift
+        Bias Drift
+        Feature Attribution
+```
