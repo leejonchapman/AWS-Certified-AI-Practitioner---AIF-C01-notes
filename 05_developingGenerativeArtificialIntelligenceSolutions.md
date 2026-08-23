@@ -435,9 +435,9 @@ The generative model may hallucinate, blend inconsistent statements, or pick whi
 
 Yes. A fine tuned model still requires structured prompts, input constraints, and few shot examples to deliver optimal output consistency in production systems.
 
-# Foundation Model Evaluation
+# Evaluate Results
 
-Evaluating foundation models ensures model capabilities match specific organizational requirements and business goals.
+Evaluating foundation models ensures model capabilities match specific organisational requirements and business goals.
 
 ```mermaid
 flowchart TD
@@ -464,7 +464,7 @@ flowchart TD
 | **Method**                 | **Core Mechanism**                                                                                                     | **Key Advantages**                                                                                  | **Limitations**                                                                             |
 | -------------------------- | ---------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
 | **Human Evaluation**       | Human assessors interact directly with the model on open ended conversations, text generation, and question answering. | Gold standard for assessing coherence, relevance, factual accuracy, and overall output quality.     | Time consuming, expensive, and difficult to manage at large scale.                          |
-| **Standard Test Datasets** | Curated data collections designed to evaluate performance across specific linguistic tasks.                            | Provides standardized comparisons across different foundation models and tracks progress over time. | Static collections may fail to capture emerging capabilities or unique domain requirements. |
+| **Standard Test Datasets** | Curated data collections designed to evaluate performance across specific linguistic tasks.                            | Provides standardised comparisons across different foundation models and tracks progress over time. | Static collections may fail to capture emerging capabilities or unique domain requirements. |
 | **Automated Metrics**      | Algorithmic scoring measuring token predictions, overlap, or semantic distance against reference data.                 | Fast, repeatable, and cost effective for rapid iterations and fine tuning during development.       | Lacks sensitivity to linguistic nuance; often diverges from human judgment.                 |
 
 ## Standard Evaluation Datasets
@@ -517,10 +517,50 @@ BLEU is precision oriented and penalizes excessive length, making it ideal for t
 
 **Why is BERTScore preferred over BLEU or ROUGE for creative text generation?**
 
-BLEU and ROUGE rely on exact word matching (n grams). BERTScore uses contextual embeddings to measure semantic meaning, recognizing valid synonyms and paraphrased sentences even when exact words differ.
+BLEU and ROUGE rely on exact word matching (n grams). BERTScore uses contextual embeddings to measure semantic meaning, recognising valid synonyms and paraphrased sentences even when exact words differ.
 
   
 
 **Why should automated metrics be paired with human evaluation?**
 
 Automated metrics provide fast quantitative feedback during training, but they cannot reliably evaluate context, subtle factual errors, or tone. Combining both methods ensures technical precision alongside real world usability.
+
+# Deploy the Application
+
+The deployment phase integrates the trained model into the target production environment for practical application.
+## Core Deployment Considerations
+
+|**Consideration Area**|**Details**|
+|---|---|
+|Cost|Pay only for consumed resources without minimum fee requirements|
+|Regions|Deployment availability remains restricted to specific AWS Regions|
+|Quotas|Verification of sufficient service resources within the AWS account|
+|Security|Implementation depends on whether the infrastructure is internal or external to AWS|
+
+## Deployment Architecture and Security Flow
+
+```mermaid
+flowchart TD
+    Deployment[Model Deployment Location] ==> AWS[Within AWS Infrastructure]
+    Deployment ==> External[Outside AWS Environment]
+    AWS ==> SharedSec[Shared Responsibility: Customer and AWS]
+    External ==> DataSec[Evaluate Data Protection for Egress Traffic]
+```
+
+## Questions You Might Have Missed
+
+**How do service quotas impact deployment planning?**
+
+Default compute resource limits on an AWS account can block deployment if not increased prior to launching production instances.
+
+  
+
+**What does the shared responsibility model cover for cloud deployments?**
+
+AWS manages physical infrastructure, data centre facilities, and host isolation, whilst the customer manages data access policies, encryption, and model configurations.
+
+  
+
+**Why does region availability vary for generative AI services?**
+
+Specialised artificial intelligence hardware clusters are provisioned progressively across global facilities, limiting initial deployment to select geographic zones.
