@@ -416,4 +416,83 @@ The underlying model receives tool definitions (schemas) in its prompt. When use
   
 
 Separating inference from knowledge updates prevents latency spikes during live customer chat. Agent 2 processes logs asynchronously, sanitising sensitive personal data before indexing records into the vector database.
+
+# Evaluating Generative AI Results
+
+Evaluating generative AI models is essential to verify performance and confirm that system objectives are met. Two primary approaches exist: qualitative human evaluation and quantitative benchmark datasets.
+
+| **Dimension**     | **Human Evaluation**                                                 | **Benchmark Datasets**                                                |
+| ----------------- | -------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| **Primary Focus** | Qualitative assessment                                               | Quantitative assessment                                               |
+| **Key Metrics**   | User experience, contextual appropriateness, creativity, flexibility | Task accuracy, generation speed, operational efficiency, scalability  |
+| **Best Phase**    | Post deployment, iterative fine tuning                               | Pre deployment testing, baseline verification, cross model comparison |
+| **Data Source**   | Real end user interactions and ratings                               | Predefined test queries and ground truth answers                      |
+| **Automation**    | Manual feedback collection                                           | Automated pipelines (e.g. LLM as a judge)                             |
+
+
+```mermaid
+flowchart TD
+    subgraph PreProduction["Pre Production Validation"]
+        A[Test Queries] --> B[Model Under Evaluation]
+        A --> C[Benchmark Ground Truth]
+        B --> D[Generated Response]
+        D --> E[LLM Judge / Metric Scorer]
+        C --> E
+        E --> F[Grading Score]
+    end
+
+    subgraph Production["Production Feedback Loop"]
+        G[End User] -->|Query| H[RAG / Chatbot System]
+        I[(Enterprise Data)] -.->|Context Retrieval| H
+        H -->|Response| G
+        G -->|Rating / Feedback| J[Model Performance Tuning]
+        J -.->|Iterative Improvement| H
+    end
+```
+
+## Creating RAG Benchmark Datasets
+
+Building a benchmark dataset for Retrieval Augmented Generation (RAG) involves subject matter experts (SMEs) defining baseline truths:
+
+  
+
+- **Context Identification:** SMEs extract precise source passages containing the essential facts needed to answer specific queries.
+    
+      
+    
+- **Answer Drafting:** SMEs write gold standard reference responses based strictly on the identified context to evaluate future RAG outputs.
+    
+      
+    
+
+## Combined Evaluation Pipeline
+
+A robust deployment combines both strategies:
+
+  
+
+1. **Pre deployment:** Benchmark datasets validate baseline accuracy, throughput, and guardrails via automated judge models before release.
+    
+      
+    
+2. **Post deployment:** Real world user ratings provide continuous feedback, enabling teams to detect edge cases and guide long term model tuning.
+    
+      
+    
+
+### Questions You Might Have Missed
+
+**How does an LLM as a judge architecture work?**
+
+  
+
+An evaluation prompt containing the input query, generated answer, and benchmark ground truth is sent to a separate evaluator LLM, which scores the output against predefined criteria like factual correctness and relevance.
+
+  
+
+**Why are benchmarks alone insufficient for production readiness?**
+
+  
+
+Static benchmarks cannot predict open ended user behaviour, novel edge cases, or subtle nuances in conversational tone that direct human feedback reveals.
 # Optimising a foundational model with fine-tuning
