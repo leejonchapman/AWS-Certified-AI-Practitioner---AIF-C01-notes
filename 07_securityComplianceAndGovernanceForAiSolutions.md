@@ -584,3 +584,235 @@ The data lifecycle covers five sequential phases critical to artificial intellig
           
         
     - _Exploratory Data Analysis (EDA)_: Systematic discovery of trends, assumption validation, and outlier identification.
+
+
+# Generative AI Security, Governance, and Scoping Matrix
+
+```mermaid
+flowchart TD
+    subgraph Disciplines["Securing Generative AI (Core Disciplines)"]
+        GC["Governance and Compliance"]
+        LP["Legal and Privacy"]
+        RM["Risk Management"]
+        CTL["Controls"]
+        RES["Resilience"]
+    end
+
+    subgraph Matrix["Generative AI Security Scoping Matrix"]
+        S1["Scope 1: Consumer App\n(Public GenAI services)"]
+        S2["Scope 2: Enterprise App\n(App/SaaS with GenAI)"]
+        S3["Scope 3: Pre trained Models\n(App built on versioned model)"]
+        S4["Scope 4: Fine tuned Models\n(Tuned on custom data)"]
+        S5["Scope 5: Self trained Models\n(Trained from scratch)"]
+    end
+
+    S1 --> S2 --> S3 --> S4 --> S5
+    Disciplines --> Matrix
+```
+
+## Security Disciplines
+
+### Governance and Compliance
+
+- Deals with policies, procedures, and reporting required to empower business operations whilst minimising operational risk.
+    
+      
+    
+- **Examples**:
+    
+      
+    - Establishing a formal governance framework for developing and deploying AI services.
+        
+          
+        
+    - Setting up compliance monitoring and reporting processes.
+        
+          
+        
+
+### Legal and Privacy
+
+- Addresses specific regulatory, legal, and privacy constraints when building or consuming solutions.
+    
+      
+    
+- **Key Considerations**:
+    
+      
+    - Assessing whether organizational data is shared with external third parties.
+        
+          
+        
+    - Verifying the origin and licensing of the training datasets utilised by the base model.
+        
+          
+        
+
+### Risk Management
+
+- Identifies potential threats unique to generative workloads and enforces practical mitigations.
+    
+      
+    
+- **Key Risk Vectors**:
+    
+      
+    - Insecure output handling (unvalidated model output passed to downstream components).
+        
+          
+        
+    - Sensitive information disclosure (unintentional data leaks in prompts or completions).
+        
+          
+        
+
+### Controls
+
+- Implementation of technical and administrative guardrails designed to mitigate operational risks.
+    
+      
+    
+- **Examples**:
+    
+      
+    - Restricting model access via identity policies to authorise only specific foundation models.
+        
+          
+        
+    - Implementing identity and network controls across inference endpoints.
+        
+          
+        
+
+### Resilience
+
+- Architectural strategies ensuring generative AI solutions maintain high availability and satisfy Service Level Agreements (SLAs).
+    
+      
+    
+- **Example**:
+    
+      
+    - Deploying infrastructure across multiple Availability Zones or Regions to guarantee AWS service availability.
+        
+          
+        
+
+## Generative AI Security Scoping Matrix
+
+|**Scope**|**Description**|**Implementation Details**|**Common Examples**|
+|---|---|---|---|
+|**Scope 1: Consumer App**|Public generative AI services|Third party tools consumed directly without enterprise data tenancy agreements.|PartyRock, ChatGPT, Midjourney|
+|**Scope 2: Enterprise App**|Enterprise SaaS with GenAI features|Commercial enterprise applications with embedded generative functionality.|Salesforce Einstein GPT, Amazon CodeWhisperer|
+|**Scope 3: Pre trained Models**|Custom application on a versioned model|Base foundation models consumed via standard API calls without weight modifications.|Amazon Bedrock base models|
+|**Scope 4: Fine tuned Models**|Adapting existing models with custom data|Taking an existing foundation model and adjusting parameters using internal datasets.|Amazon Bedrock customised models, Amazon SageMaker JumpStart|
+|**Scope 5: Self trained Models**|Training from scratch on proprietary data|Complete model architecture creation and pre training using custom compute clusters.|Amazon SageMaker|
+
+## Governance Strategies and Lifecycle Monitoring
+
+### Implementation Pillars
+
+- **Policies and Cadence**: Define concrete operational guardrails and enforce a recurring review cadence.
+    
+      
+    
+- **Transparency Standards**: Ensure clear traceability for model inputs, algorithmic logic, and source data provenance.
+    
+      
+    
+- **Team Training Requirements**:
+    
+      
+    - Deliver role specific training on bias mitigation and responsible development practices.
+        
+          
+        
+    - Foster cross functional collaboration to maintain shared compliance awareness.
+        
+          
+        
+    - Mandate continual training and certification programmes to stay aligned with evolving regulatory updates.
+        
+          
+        
+
+### AI Monitoring Architecture
+
+```mermaid
+flowchart LR
+    subgraph Ingestion["System Ingestion"]
+        INP["Inputs / Prompts"]
+        INF["Inference Engine"]
+        OUT["Outputs / Completions"]
+    end
+
+    subgraph Tracking["Monitoring Dimensions"]
+        PERF["Performance & Latency"]
+        BIAS["Bias & Fairness Audits"]
+        COMP["Compliance & Responsible AI"]
+        INFRA["Infrastructure Health"]
+    end
+
+    INP --> INF --> OUT
+    INF --> Tracking
+```
+
+- **Performance Metrics**:
+    
+      
+    - **Model Accuracy**: Ratio of total correct predictions relative to all predictions.
+        
+          
+        
+    - **Precision**: True positive predictions relative to total positive predictions ($Precision = \frac{TP}{TP + FP}$).
+        
+          
+        
+    - **Recall**: True positive predictions relative to total actual positive instances ($Recall = \frac{TP}{TP + FN}$).
+        
+          
+        
+    - **F1 Score**: Harmonic mean balancing precision and recall ($F1 = 2 \cdot \frac{Precision \cdot Recall}{Precision + Recall}$).
+        
+          
+        
+    - **Latency**: End to end response duration per inference call.
+        
+          
+        
+- **Infrastructure Monitoring**: Tracking compute utilisation, memory overhead, and network throughput of hosting endpoints.
+    
+      
+    
+- **Fairness and Compliance Tracking**: Continual auditing to identify algorithmic bias, data drift, and regulatory non compliance.
+    
+      
+    
+
+## Missed Questions
+
+**What is the core difference between Scope 3 and Scope 4 in the AWS Scoping Matrix?**
+
+  
+
+Scope 3 uses pre trained base models as they are via API calls without altering weights, whereas Scope 4 updates model parameters by fine tuning on custom proprietary datasets.
+
+  
+
+**How does data responsibility change as an organisation shifts from Scope 1 to Scope 5?**
+
+  
+
+Responsibility shifts from a pure consumer model with zero data pipeline control (Scope 1) to full ownership of raw data collection, sanitisation, training infrastructure, and intellectual property protection (Scope 5).
+
+  
+
+**Why is latency evaluated alongside accuracy in production AI workloads?**
+
+  
+
+A highly accurate model is commercially impractical if its inference processing time breaches application SLAs or degrades user experience.
+
+  
+
+This [AWS Generative AI Security Scoping Matrix Guide](https://www.youtube.com/watch?v=Z3dnN4Uy5yM) breaks down each scope from consumer applications to custom-trained models for cloud certification preparation.
