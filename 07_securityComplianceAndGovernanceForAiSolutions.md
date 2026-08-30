@@ -310,3 +310,277 @@ flowchart LR
     
       
     - Legal frameworks (GDPR, HIPAA) carry statutory penalties for non compliance, whereas industry standards (PCI DSS, ISO) represent technical baselines required by industry groups or commercial contracts.
+
+# AWS Services for Governance and Compliance
+
+Governance and compliance in AWS ensure that cloud infrastructure adheres to regulatory frameworks, security standards, and organizational policies, particularly within machine learning and generative computing pipelines.
+
+
+```mermaid
+graph TD
+    A[AWS Governance and Compliance] --> B[AWS Config]
+    A --> C[Amazon Inspector]
+    A --> D[AWS Audit Manager]
+    A --> E[AWS Artifact]
+    A --> F[AWS CloudTrail]
+    A --> G[AWS Trusted Advisor]
+
+    B --> B1[Tracks configuration history and resource relationships]
+    C --> C1[Scans code, containers, and EC2 for vulnerabilities]
+    D --> D1[Automates evidence collection for regulatory audits]
+    E --> E1[On demand access to AWS compliance reports]
+    F --> F1[Records API activity and user actions]
+    G --> G1[Recommends optimisations across core pillars]
+```
+
+## Core Service Breakdown
+
+### AWS Config
+
+AWS Config tracks, evaluates, and documents the configuration history of your AWS resources over time.
+
+  
+
+- **Resource Administration**: Oversees resource states and detects misconfigurations against desired baselines.
+    
+      
+    
+- **Auditing and Compliance**: Stores historical configuration data to prove compliance during regulatory reviews.
+    
+      
+    
+- **Change Management**: Maps resource relationships so you can evaluate the blast radius before modifying infrastructure.
+    
+      
+    
+
+### Amazon Inspector
+
+Amazon Inspector is an automated vulnerability management service that scans workloads for security flaws and unintended network paths.
+
+  
+
+- **Scan Coverage**: Evaluates Amazon EC2 instances, container images in Amazon ECR, and AWS Lambda functions.
+    
+      
+    
+- **Vulnerability Types**:
+    
+      
+    - _Package Vulnerabilities_: Software libraries with known Common Vulnerabilities and Exposures (CVEs).
+        
+          
+        
+    - _Code Vulnerabilities_: Flaws in application code, such as unencrypted data or weak cryptographic algorithms.
+        
+          
+        
+    - _Network Reachability_: Open access routes that expose compute resources to external traffic.
+        
+          
+        
+- **Risk Scoring**: Produces contextual risk scores based on National Vulnerability Database metrics adjusted for your specific environment.
+    
+      
+    
+
+### AWS Audit Manager
+
+AWS Audit Manager continually audits your cloud environments to assess control effectiveness and simplify risk management.
+
+  
+
+- **Evidence Collection**: Automatically gathers evidence from services such as AWS CloudTrail, AWS Config, and AWS Security Hub.
+    
+      
+    
+- **Multicloud Support**: Allows manual and automated evidence ingestion across hybrid and multicloud setups.
+    
+      
+    
+- **Integrity Control**: Verifies that collected audit evidence remains unaltered and tamper evident.
+    
+      
+    
+
+### AWS Artifact
+
+AWS Artifact is a self service portal providing direct downloads of AWS compliance and security documentation.
+
+  
+
+- **Compliance Reports**: Download SOC, PCI DSS, and ISO certifications covering AWS infrastructure.
+    
+      
+    
+- **Agreements**: Review, accept, and manage agreements with AWS (such as the Business Associate Addendum for HIPAA compliance).
+    
+      
+    
+
+### AWS CloudTrail
+
+AWS CloudTrail records account activity by logging API calls made via the Management Console, AWS CLI, SDKs, and internal service actions.
+
+  
+
+- **Audit Trail**: Answers who requested which action, on what resource, and at what timestamp.
+    
+      
+    
+- **Operational Analysis**: Enables tracking of unauthorized access attempts and operational troubleshooting across all regions.
+    
+      
+    
+
+### AWS Trusted Advisor
+
+AWS Trusted Advisor scans your AWS environment against established architecture guidance to improve efficiency and security.
+
+  
+
+- **Core Evaluation Pillars**: Evaluates cost optimisation, performance, security, resilience, operational excellence, and service quotas.
+    
+      
+    
+- **Remediation**: Delivers clear recommendations to resolve configuration deviations from recommended practices.
+    
+      
+    
+
+## Service Comparison
+
+|**Service**|**Primary Purpose**|**Key Output**|**Target Scope**|
+|---|---|---|---|
+|**AWS Config**|Resource configuration tracking and drift detection|Configuration timelines and compliance state|AWS Resource configurations|
+|**Amazon Inspector**|Vulnerability scanning and network exposure analysis|Severity findings and contextual risk scores|EC2, Lambda, ECR containers|
+|**AWS Audit Manager**|Continuous evidence collection for regulatory audits|Audit assessment reports|Internal controls and compliance frameworks|
+|**AWS Artifact**|Portal for official AWS compliance documents|AWS SOC, ISO, and PCI reports|AWS global infrastructure|
+|**AWS CloudTrail**|API and user activity logging|Event history and JSON log files|AWS API requests and account actions|
+|**AWS Trusted Advisor**|Guidance on architectural efficiency|Actionable recommendations and status alerts|Overall AWS environment posture|
+
+## Questions You Might Have Missed
+
+### What is the distinction between AWS CloudTrail and AWS Config?
+
+CloudTrail tracks **actions** (who made an API call, when, and from where), whereas Config tracks **state** (what the resource looked like before and after that call).
+
+  
+
+### How does AWS Artifact differ from AWS Audit Manager in terms of audit evidence?
+
+AWS Artifact supplies evidence that AWS itself is compliant (audits of AWS data centres and systems), whilst AWS Audit Manager collects evidence showing that your workloads and configurations are compliant.
+
+  
+
+### Can AWS Config automatically remediate non compliant resources?
+
+Yes. AWS Config can trigger automated remediation actions through AWS Systems Manager Automation documents when a resource fails an evaluation rule.
+
+# AI Data Governance Strategies and Management
+
+
+```mermaid
+flowchart TD
+    subgraph Governance["Data Governance Strategies"]
+        DQI["Data Quality and Integrity"]
+        DLM["Data Lifecycle Management"]
+        RAI["Responsible AI"]
+        GSR["Governance Structures and Roles"]
+        DSC["Data Sharing and Collaboration"]
+    end
+
+    subgraph Lifecycle["AI Data Lifecycle Stages"]
+        COL["1. Collection"] --> PRC["2. Processing"]
+        PRC --> STO["3. Storage"]
+        STO --> CON["4. Consumption"]
+        CON --> DIS["5. Disposal / Archiving"]
+    end
+
+    subgraph Operations["Core Data Operations"]
+        LOG["Data Logging"]
+        RES["Data Residency"]
+        MON["Data Monitoring"]
+        ANA["Data Analysis"]
+    end
+
+    Governance --> Lifecycle
+    Lifecycle --> Operations
+```
+
+## Key Governance Strategies
+
+|**Strategy**|**Core Focus**|**Implementation Actions**|
+|---|---|---|
+|**Data Quality and Integrity**|Accuracy and trust in model inputs|Establish quality standards for completeness and consistencyApply validation and cleansing to remove anomaliesMaintain data lineage and provenance tracking|
+|**Data Lifecycle Management**|Asset tracking from creation to deletion|Classify and catalogue assets by sensitivity and valueEnforce retention and disposition rulesBuild backup and disaster recovery plans|
+|**Responsible AI**|Ethical and unbiased outcomes|Set guidelines for bias, fairness, transparency, and accountabilityAudit models regularly for unintended consequencesDeliver team training on ethical AI standards|
+|**Governance Structures**|Accountability and leadership|Form a central data governance councilAssign data stewards, data owners, and data custodiansTrain technical teams on compliance requirements|
+|**Data Sharing and Collaboration**|Controlled access across domains|Draft data sharing agreements and security protocolsUse data virtualisation or federation to query distributed sourcesEncourage collaborative data usage across teams|
+
+## AI Data Management Concepts
+
+### Data Lifecycles
+
+The data lifecycle covers five sequential phases critical to artificial intelligence and machine learning pipelines:
+
+  
+
+1. **Collection**: Gathering raw data from source systems.
+    
+      
+    
+2. **Processing**: Cleaning, transforming, and preparing data for training or inference.
+    
+      
+    
+3. **Storage**: Securing data in appropriate repositories (e.g. object stores, data lakes, or databases).
+    
+      
+    
+4. **Consumption**: Feeding processed data into models for training, validation, or inference.
+    
+      
+    
+5. **Disposal or Archiving**: Retaining historical records or purging data in accordance with regulatory requirements.
+    
+      
+    
+
+### Core Operational Principles
+
+- **Data Logging**: Systematic recording of system telemetry, including model inputs, inference outputs, performance metrics, and system events. Essential for troubleshooting and auditing.
+    
+      
+    
+- **Data Residency**: The geographic and physical location of data storage and processing. Influenced by sovereignty legislation, compliance mandates, and network proximity to compute clusters.
+    
+      
+    
+- **Data Monitoring**: Continuous assessment of production data streams:
+    
+      
+    - _Quality Assessment_: Verifying ongoing schema and value integrity.
+        
+          
+        
+    - _Anomaly Detection_: Identifying isolated data points that deviate from expected ranges.
+        
+          
+        
+    - _Drift Tracking_: Spotting shifts in input distributions over time that degrade model performance.
+        
+          
+        
+- **Data Analysis**: Techniques applied to understand underlying patterns:
+    
+      
+    - _Statistical Analysis_: Calculating distributions, variance, and summary statistics.
+        
+          
+        
+    - _Data Visualisation_: Plotting features to identify correlations.
+        
+          
+        
+    - _Exploratory Data Analysis (EDA)_: Systematic discovery of trends, assumption validation, and outlier identification.
