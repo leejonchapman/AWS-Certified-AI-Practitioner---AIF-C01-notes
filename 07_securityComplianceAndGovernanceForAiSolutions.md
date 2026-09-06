@@ -816,3 +816,662 @@ A highly accurate model is commercially impractical if its inference processing 
   
 
 This [AWS Generative AI Security Scoping Matrix Guide](https://www.youtube.com/watch?v=Z3dnN4Uy5yM) breaks down each scope from consumer applications to custom-trained models for cloud certification preparation.
+
+# Security and Privacy Considerations for AI Systems
+
+```mermaid
+mindmap
+  root((AI Security))
+    Core Tasks
+      Threat Detection
+        Malicious content generation
+        Data manipulation
+        Automated attacks
+      Vulnerability Management
+        Penetration testing
+        Patch management
+        Code reviews
+      Infrastructure Protection
+        Cloud platforms
+        Edge devices
+        Data stores
+      Prompt Injection
+        Input filtering
+        Sanitisation
+        Validation
+      Data Encryption
+        Data at rest
+        Data in transit
+        Key management
+    OWASP Top 10 for LLMs
+      LLM01 Prompt Injection
+      LLM02 Insecure Output Handling
+      LLM03 Training Data Poisoning
+      LLM04 Model Denial of Service
+      LLM05 Supply Chain Vulnerabilities
+      LLM06 Sensitive Information Disclosure
+      LLM07 Insecure Plugin Design
+      LLM08 Excessive Agency
+      LLM09 Overreliance
+      LLM10 Model Theft
+```
+
+## Core Security Tasks
+
+### Threat Detection
+
+- Identify and monitor potential security threats, such as malicious actors attempting to exploit weaknesses in AI systems or using generative AI for hostile purposes.
+    
+      
+    
+- Examples of malicious activity include generating fake content, manipulating data, and automating attacks.
+    
+      
+    
+- Build and deploy AI powered threat detection systems to analyse network traffic, user behaviour, and other telemetry sources to detect and respond to threats.
+    
+      
+    
+
+### Vulnerability Management
+
+- Identify and remediate weaknesses in AI and generative AI systems, including software bugs, model vulnerabilities, and attack vectors such as malware, viruses, and malicious email attachments.
+    
+      
+    
+- Conduct regular security assessments, penetration testing, and code reviews.
+    
+      
+    
+- Establish patch management and update processes to ensure systems remain patched and current.
+    
+      
+    
+
+### Infrastructure Protection
+
+- Secure the underlying environments supporting AI systems, including cloud computing platforms, edge devices, and data stores.
+    
+      
+    
+- Enforce access controls, network segmentation, encryption, and additional defensive layers against unauthorised access.
+    
+      
+    
+- Maintain infrastructure resilience to withstand operational failures, attacks, or disruptions.
+    
+      
+    
+
+### Prompt Injection
+
+- Mitigate attempts by adversaries to manipulate input prompts sent to generative AI models to force undesirable or malicious execution.
+    
+      
+    
+- Apply defensive techniques including prompt filtering, sanitisation, and input validation to verify input safety.
+    
+      
+    
+- Train models and structure procedures to withstand adversarial prompt techniques.
+    
+      
+    
+
+### Data Encryption
+
+- Maintain confidentiality and integrity for data utilised during training and deployment phases.
+    
+      
+    
+- **Data at rest**: Protect stored data on servers, databases, or local devices.
+    
+      
+    
+- **Data in transit**: Secure communication pathways between AI components.
+    
+      
+    
+- Implement robust cryptographic key management to prevent unauthorised access.
+    
+
+## OWASP Top 10 for LLMs
+
+|**Rank**|**Vulnerability**|**Description**|
+|---|---|---|
+|LLM01|Prompt Injection|Manipulation of model behaviour via crafted, untrusted user inputs|
+|LLM02|Insecure Output Handling|Missing validation or sanitisation of model outputs before consumption downstream|
+|LLM03|Training Data Poisoning|Tampering with training data to introduce security flaws or backdoors|
+|LLM04|Model Denial of Service|Resource heavy operations designed to degrade performance or take systems offline|
+|LLM05|Supply Chain Vulnerabilities|Compromised third party datasets, pre trained models, or application dependencies|
+|LLM06|Sensitive Information Disclosure|Unauthorised exposure of confidential data via model completions|
+|LLM07|Insecure Plugin Design|Defective extensions or integrations that expose operational vulnerabilities|
+|LLM08|Excessive Agency|Granting models disproportionate permissions or uncontrolled autonomous capabilities|
+|LLM09|Overreliance|Unquestioned trust in model outputs without oversight or human verification|
+|LLM10|Model Theft|Exfiltration, copying, or reverse engineering of proprietary model weights and architecture|
+# Securing AI Systems on AWS
+
+Security forms a fundamental component of all AWS workloads, including generative artificial intelligence. Securing AI systems ensures operational reliability, protects intellectual property, and preserves trust when models integrate into decision making processes.
+
+```mermaid
+mindmap
+  root((AWS AI Security))
+    Shared Responsibility
+      Security OF the Cloud
+      Security IN the Cloud
+    Foundational Four
+      AWS KMS
+      AWS Security Hub
+      Amazon GuardDuty
+      AWS Shield Advanced
+    Data Protection
+      Amazon Macie
+      AWS Network Firewall
+      Amazon VPC
+      AWS PrivateLink
+    Identity and Access
+      AWS IAM
+      AWS IAM Identity Center
+      IAM Access Analyzer
+      SageMaker Role Manager
+      AWS Verified Access
+      Amazon Verified Permissions
+    Threat Detection and Response
+      Amazon Inspector
+      Amazon Detective
+      AWS Config
+      AWS Audit Manager
+      AWS Artifact
+    Application Protection
+      AWS WAF
+      AWS Firewall Manager
+```
+
+## Core Reasons to Secure AI Systems
+
+- **Protection of Sensitive Data:** AI models frequently ingest and process personal information, financial records, and proprietary commercial data. Inadequate controls lead to regulatory violations, financial liabilities, and exposure of confidential assets.
+    
+      
+    
+- **Adversarial Attack Mitigation:** Hostile entities target machine learning infrastructure to execute model inversion, prompt manipulation, training data poisoning, or intellectual property theft. Robust perimeter controls, encryption, and continuous telemetry counteract these vectors.
+    
+      
+    
+- **Preserving Reliability in Critical Decision Paths:** Workloads integrated directly into operational decisions must resist external tampering to guarantee deterministic, uncompromised outputs.
+    
+      
+    
+
+## The AWS Shared Responsibility Model
+
+Security and compliance operate as a shared framework between AWS and the customer, dividing operational duties into distinct architectural tiers.
+  
+
+```mermaid
+flowchart TD
+    subgraph Customer["Customer Responsibility (Security IN the Cloud)"]
+        A[Customer Data and Training Sets]
+        B[Guest Operating System and Patches]
+        C[Application Code and Model Logic]
+        D[Firewall Rules and Security Groups]
+        E[IAM Configurations and Permissions]
+    end
+
+    subgraph AWS["AWS Responsibility (Security OF the Cloud)"]
+        F[Host Operating System and Hypervisor]
+        G[Virtualisation Infrastructure]
+        H[Physical Facilities and Hardware]
+        I[Foundational Network Infrastructure]
+    end
+```
+
+|**Security Domain**|**Responsible Party**|**Scope of Duties**|
+|---|---|---|
+|**Security of the Cloud**|AWS|Physical facility protection, data centre operations, server hardware, hypervisors, and core platform network controls.|
+|**Security in the Cloud**|Customer|Guest operating system updates, firewall rules, identity permissions, training dataset security, application code, and model configuration.|
+
+## Defence in Depth: Foundational Services
+
+A layered security perimeter isolates, slows down, and halts threat actors, preventing lateral movement and privilege escalation across your infrastructure.
+
+  
+
+|**Service**|**Security Domain**|**Core Functionality**|
+|---|---|---|
+|**AWS KMS**|Data Protection|Encrypts stored assets using AWS managed keys or customer managed keys.|
+|**AWS Security Hub**|Incident Response|Centralises security findings across accounts and triggers automated remediation playbooks.|
+|**Amazon GuardDuty**|Threat Detection|Continuously monitors behavioural telemetry, API invocations, and account activities for indicators of compromise.|
+|**AWS Shield Advanced**|Network Protection|Delivers managed DDoS protection for applications, defending availability and capacity.|
+
+## AWS Services for Machine Learning and AI Security
+
+
+```mermaid
+graph TD
+    DataIngest[Data Lake / Amazon S3] -->|Scan for PII/PHI| Macie[Amazon Macie]
+    Macie -->|Clean Datasets| Train[Amazon SageMaker / Bedrock]
+    
+    subgraph Identity["Identity and Access Controls"]
+        IAM[AWS IAM / IAM Identity Center]
+        Analyzer[IAM Access Analyzer]
+        RoleMgr[SageMaker Role Manager]
+        Verified[Verified Access / Verified Permissions]
+    end
+
+    subgraph Network["Network Isolation"]
+        VPC[Amazon Virtual Private Cloud]
+        NetFW[AWS Network Firewall]
+        PLink[AWS PrivateLink]
+    end
+
+    Identity --> Train
+    Network --> Train
+
+    Train -->|Telemetry| GuardDuty[Amazon GuardDuty]
+    Train -->|API Telemetry| Detective[Amazon Detective]
+    Train -->|Vulnerability Scans| Inspector[Amazon Inspector]
+```
+
+### Sensitive Data Discovery
+
+- **Amazon Macie:** Uses machine learning routines to automate discovery, classification, and reporting of sensitive items (personally identifiable information, personal health information, and financial data) within Amazon S3. Database assets can be extracted to Amazon S3 to enable complete Macie discovery runs before model training.
+    
+      
+    
+
+### Identity and Access Management
+
+- **AWS Identity and Access Management (IAM):** Implements authentication and authorisation policies across resources using users, groups, and explicit roles.
+    
+      
+    
+- **Amazon SageMaker Role Manager:** Automates role creation for machine learning activities via three preconfigured personas:
+    
+      
+    - _Data Scientist Persona_
+        
+          
+        
+    - _MLOps Persona_
+        
+          
+        
+    - _SageMaker AI Compute Persona_
+        
+          
+        
+- **Zero Trust Policy Enforcement:**
+    
+      
+    - **AWS IAM Identity Center and IAM Access Analyzer:** Evaluates least privilege policies across AI accounts and environments.
+        
+          
+        
+    - **AWS Verified Access:** Validates application requests using corporate identity policies, eliminating standard VPN management overheads.
+        
+          
+        
+    - **Amazon Verified Permissions:** Provides fine grained authorisation and policy enforcement for custom application logic.
+        
+          
+        
+
+### Network Isolation and Data Protection
+
+- **Amazon Virtual Private Cloud (Amazon VPC):** Isolates machine learning compute instances within customer configured virtual subnets.
+    
+      
+    
+- **AWS PrivateLink:** Connects internal VPC components directly to services like Amazon Bedrock over private network routes, preventing public internet routing.
+    
+      
+    
+- **AWS Network Firewall:** Inspects inbound and outbound TLS network traffic using deep packet inspection across internet gateways, cross VPC routes, and internal subnets.
+    
+      
+    
+
+### Threat Detection, Vulnerabilities, and Forensics
+
+- **Amazon Inspector:** Scans operating environments and software dependencies automatically for unintended network exposures and package vulnerabilities.
+    
+      
+    
+- **Amazon Detective:** Aggregates telemetry from AWS CloudTrail, Amazon VPC Flow Logs, and Amazon GuardDuty to accelerate root cause investigations and forensic analysis.
+    
+      
+    
+
+### Compliance and Incident Response Automation
+
+Automating operational tasks reduces manual human error, enforces continuous regulatory alignment, and integrates compliance testing directly into development lifecycles.
+
+  
+
+- **AWS Config:** Records configuration history and evaluates compliance rules across infrastructure automatically.
+    
+      
+    
+- **AWS Audit Manager:** Gathers evidence continuously to assess alignment with external compliance standards.
+    
+      
+    
+- **AWS Artifact:** Serves as a centralised catalogue to review and download AWS compliance reports and certifications.
+    
+      
+    
+
+### Web Application and Perimeter Defence
+
+- **AWS WAF:** Filters incoming HTTP/HTTPS traffic to prevent injection vectors, cross site scripting, and account takeover attempts against generative AI endpoints.
+    
+      
+    
+- **AWS WAF Bot Control:** Mitigates automated crawlers, scrapers, and malicious scanning agents that drain compute capacity or distort analytics.
+    
+      
+    
+- **AWS Firewall Manager:** Centralises rule management across AWS WAF, AWS Shield Advanced, and AWS Network Firewall policies across multiple accounts.
+
+# Data Lineage, Cataloguing, and Governance in Generative AI
+
+Documenting data origins and tracking model lineage ensures transparency, traceability, and accountability across machine learning systems. Proper attribution supports security, helps identify biases early, and simplifies audit compliance.
+
+  
+```mermaid
+flowchart TD
+    subgraph Sourcing[Data Ingestion and Origins]
+        A[Datasets and Databases] --> B[Licences and Terms of Use]
+        B --> C[Data Lineage Tracking]
+    end
+
+    subgraph Curation[Data Preparation]
+        C --> D[Collection Details]
+        D --> E[Cleaning and Curation Methods]
+        E --> F[Preprocessing and Transformations]
+    end
+
+    subgraph Cataloguing[Governance and Documentation]
+        F --> G[Data Catalogues]
+        G --> H[Amazon SageMaker Model Cards]
+    end
+
+    subgraph Outcomes[Model Operationalisation]
+        H --> I[Audit and Compliance Readiness]
+        H --> J[Bias and Limitation Assessment]
+        H --> K[Stakeholder Source Attribution]
+    end
+```
+
+## Core Pillars of Governance
+
+|**Pillar**|**Focus Area**|**Primary Purpose**|**Key Components**|
+|---|---|---|---|
+|**Data Lineage**|Data journey|Traces transformations from initial source to model deployment|Extraction history, processing stages, system transfers|
+|**Cataloguing**|Resource registry|Systematically organises components, metadata, and licensing|Source lists, ownership records, terms of use|
+|**Model Cards**|Model reporting|Standardises documentation for model capabilities, risks, and performance|Intended use, evaluation metrics, risk ratings, known biases|
+
+## Understanding Data and Model Lineage
+
+Data and model lineage provides a verifiable record detailing where data originated, how it changed, and how the final model evolved.
+
+
+```mermaid
+sequenceDiagram
+    participant Raw as Raw Sources (Databases / Datasets)
+    participant Pipe as Preprocessing Pipeline
+    participant Lineage as Lineage Tracker
+    participant Model as Generative AI Model
+
+    Raw->>Lineage: Log origins, licences, and timestamps
+    Raw->>Pipe: Feed raw inputs
+    Pipe->>Pipe: Execute cleaning and transformations
+    Pipe->>Lineage: Record transformations and bias mitigations
+    Pipe->>Model: Provide curated training data
+    Model->>Lineage: Bind model weights to data snapshot
+```
+
+Lineage records help teams evaluate:
+
+  
+
+- The reliability of external datasets.
+    
+      
+    
+- The evolution of data across each transformation stage.
+    
+      
+    
+- Potential vulnerabilities or biases introduced during data ingestion.
+    
+      
+    
+
+## Source Citation and Provenance Documentation
+
+Documenting data provenance requires recording precise operational details about dataset construction.
+
+  
+
+```
++-----------------------------------------------------------------------+
+|                       PROVENANCE CHECKLIST                            |
++-----------------------------------------------------------------------+
+|  [ ] Data Collection Processes                                        |
+|      Detailed log of gathering methods, timestamps, and owners.        |
+|                                                                       |
+|  [ ] Cleaning and Curation Techniques                                 |
+|      Specific sanitisation routines, filtering, and validation steps. |
+|                                                                       |
+|  [ ] Preprocessing and Transformations                                |
+|      Tokenisation, normalisation, and vector transformations.         |
+|                                                                       |
+|  [ ] Legal and Licensing Attribution                                  |
+|      Explicit recording of licences, terms of use, and permissions.   |
++-----------------------------------------------------------------------+
+```
+
+Accurate source citations let stakeholders confirm whether outputs are based on verified, legally compliant materials.
+
+  
+
+## Amazon SageMaker Model Cards
+
+Amazon SageMaker Model Cards provide a centralised mechanism to record model governance information for audits and business reporting.
+
+
+```mermaid
+mindmap
+  root((SageMaker Model Card))
+    Intended Purpose
+      Business Goals
+      Intended Use Cases
+      Known Limitations
+    Risk and Evaluation
+      Risk Rating
+      Evaluation Results
+      Observed Biases
+    Training Provenance
+      Source Datasets
+      Data Licences
+      Training Metrics
+    Operational Guidance
+      Usage Guidelines
+      Handling Recommendations
+      Custom Metadata
+```
+
+### Technical Benefits of Model Cards
+
+- **Centralised Governance:** Documents model limitations, intended use cases, and risk ratings in one auditable format.
+    
+      
+    
+- **Streamlined Audits:** Provides verifiable evidence of model performance, metrics, and training data provenance to internal and external review teams.
+    
+      
+    
+- **Business Communication:** Connects model functionality with organisational objectives and provides deployment teams with explicit operational constraints.
+    
+      
+    
+
+## Questions You Might Have Missed
+
+**How does data lineage directly prevent licensing violations in generative AI?**
+
+  
+
+It maintains an immutable link between training corpora and their original terms of use, preventing restricted commercial datasets from entering fine tuning pipelines.
+
+  
+
+**Where do SageMaker Model Cards sit in automated CI/CD deployment pipelines?**
+
+  
+
+Model cards can be updated programmatically using the AWS Python SDK during training and evaluation jobs, preventing models from advancing to production if compliance thresholds fail.
+
+  
+
+**What distinguishes a data catalogue from a model card in production?**
+
+  
+
+A data catalogue tracks raw input assets and metadata across the enterprise, whereas a model card documents the trained machine learning artefact, its specific parameters, and operational boundaries.
+
+# Secure Data Engineering for Generative AI
+
+## Data Usage in Generative AI
+
+Generative AI systems rely on distinct data tiers. Control and ownership depend on the architecture scope defined by governance frameworks.
+
+  
+
+|**Data Type**|**Definition and Purpose**|**Scope 1 & 2 Control**|**Scope 3 Control**|**Scope 4 Control**|**Scope 5 Control**|
+|---|---|---|---|---|---|
+|**User Data**|Specific prompts, inputs, and operational parameters supplied by end users to tailor responses.|Customer|Customer|Customer|Customer|
+|**Fine Tuning Data**|Domain specific subsets used to adjust model weights and parameters for custom tasks.|Application Provider|Application Provider|Customer|Customer|
+|**Training Data**|Comprehensive datasets used to establish foundational capabilities during pretraining.|Application Provider|Application Provider|Application Provider|Customer|
+
+## Application Data Flow Architecture
+
+The interaction flow below represents data movement within Scope 1 and Scope 2 setups, covering user requests, retrieval augmentation, and fine tuned completions.
+
+
+```mermaid
+flowchart TD
+    User([User]) <-->|Prompt / Response| App[Generative AI Application]
+    App <-->|Query via Plugins / Response| CustData[(Customer Data)]
+    App -->|Context| FTModel[Fine Tuned Model / Data]
+    FTModel -->|Completions| App
+    
+    TrainData[(Training Data)] --> PreModel[Pretrained Model]
+    FTData[(Fine Tuning Data)] --> FTModel
+    PreModel --> FTModel
+```
+
+## Data Engineering Lifecycle
+
+The data engineering lifecycle runs iteratively to collect, process, validate, and analyse data used for model operations.
+
+
+```mermaid
+flowchart TD
+    subgraph Governance [Cross Lifecycle Governance]
+        Automation[Data Engineering Automation & Access Control]
+        IaC[IaC Deployment]
+        Observability[Monitoring & Debugging]
+    end
+
+    subgraph CorePipeline [Data Engineering Lifecycle]
+        Raw[(Raw Data)] --> Stage1[Data Collection]
+        Stage1 --> Stage2[Data Preparation & Cleaning]
+        Stage2 --> Stage3[Data Quality Check]
+        Stage3 --> Stage4[Data Visualisation & Analysis]
+    end
+
+    subgraph PrepDetails [Preparation Components]
+        Stage2 -.-> Svc[Service Selection]
+        Stage2 -.-> Proc[Data Processing]
+        Stage2 -.-> Stor[Data Storage]
+    end
+
+    Governance --- CorePipeline
+```
+
+### Automation and Pipeline Governance
+
+- Orchestrate data workflows using tools like **AWS Glue Workflows** to manage extract, transform, and load operations.
+    
+      
+    
+- Configure explicit starting triggers, intermediate steps, and segregated branches for passed and failed tasks.
+    
+      
+    
+- Record error events without halting unaffected pipeline operations.
+    
+      
+    
+- Deploy supporting infrastructure through code to ensure consistent environments.
+    
+      
+    
+
+## Data Quality Assurance
+
+Reliable generative AI outputs require strict data validation.
+
+  
+
+|**Metric**|**Core Focus**|**Exam Application**|
+|---|---|---|
+|**Completeness**|Full coverage of relevant operational scenarios|Ensures no critical edge cases, scenarios, or systemic biases are missing from training sets.|
+|**Accuracy**|Real world fidelity|Guarantees training records reflect current, correct, and verifiable real world conditions.|
+|**Timeliness**|Currency of records|Measures the age of data in stores to prevent staleness in model representations.|
+|**Consistency**|Logical coherence|Maintains uniform formats, values, and relations across development and serving stages.|
+
+### Engineering Checkpoints
+
+- Embed automated tests and validation rules across pipeline boundaries.
+    
+      
+    
+- Run scheduled profiling to catch drift or corrupt values early.
+    
+      
+    
+- Implement structured feedback mechanisms to remediate pipeline flaws.
+    
+      
+    
+- Maintain complete data lineage and metadata tracking from ingestion to inference.
+    
+      
+    
+
+## Questions You Might Have Missed
+
+**What specific controls separate failed and passed stages in AWS Glue?**
+
+  
+
+AWS Glue workflows use conditional predicates and status watchers. These run downstream jobs only when preceding crawlers or ETL jobs return target success states, routing errors to separate alerting queues.
+
+  
+
+**How does data lineage mitigate security risks during model auditing?**
+
+  
+
+Data lineage records every transform and source system. If malicious inputs or poisoned data enter training sets, engineers can pinpoint the exact origin, isolate contaminated model weights, and roll back changes.
+
+  
+
+**Why does Scope 4 switch fine tuning control to the customer?**
+
+  
+
+In Scope 4, organisations fine tune foundation models inside their own managed environments or dedicated tenants. The organisation provides proprietary domain data rather than relying on external vendor tuning.
