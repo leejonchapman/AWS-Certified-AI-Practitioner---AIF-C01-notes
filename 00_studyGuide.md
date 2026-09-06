@@ -1,5 +1,5 @@
 ---
-epub: true
+epub: false
 title: ""
 author: ""
 language: en
